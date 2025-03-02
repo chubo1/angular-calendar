@@ -17,6 +17,9 @@
         class="calendar-day" 
         *ngFor="let day of calendarDays()" 
         (click)="selectDate(day)" 
+        (keydown.enter)="selectDate(day)" 
+        (keydown.space)="selectDate(day)" 
+        tabindex="0"
         [class.selected]="selectedDate()?.toDateString() === day.toDateString()">
         {{ day.getDate() }}
       </div>
@@ -41,12 +44,12 @@
           [style.height.px]="app.duration"
           [appointment]="{ title: app.title, interval: formatInterval(app) }">
        </app-appointment-item>
-        <div
-          (click)="openAppointmentDialog($event)"
-          (keydown.enter)="openAppointmentDialog($event)" 
-          (keydown.space)="openAppointmentDialog($event)" 
-          tabindex="0"
-          class="create-appointment-overlay"></div>
+        <div 
+        (keydown.enter)="openAppointmentDialog($event)" 
+        (keydown.space)="openAppointmentDialog($event)" 
+        (click)="openAppointmentDialog($event)"
+        tabindex="0"
+        class="create-appointment-overlay" ></div>
       </div>
     </div>
   </div>
