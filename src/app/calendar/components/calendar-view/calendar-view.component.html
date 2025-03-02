@@ -13,16 +13,14 @@
     </div>
     <div class="calendar-grid">
       <div class="day-name" *ngFor="let day of ['Sun','Mon','Tue','Wed','Thu','Fri','Sat']">{{ day }}</div>
-      <div 
-        class="calendar-day" 
+      <button 
+        class="calendar-day b-none" 
         *ngFor="let day of calendarDays()" 
         (click)="selectDate(day)" 
-        (keydown.enter)="selectDate(day)" 
-        (keydown.space)="selectDate(day)" 
         tabindex="0"
         [class.selected]="selectedDate()?.toDateString() === day.toDateString()">
         {{ day.getDate() }}
-      </div>
+      </button>
     </div>
   </div>
 
@@ -44,12 +42,11 @@
           [style.height.px]="app.duration"
           [appointment]="{ title: app.title, interval: formatInterval(app) }">
        </app-appointment-item>
-        <div 
-        (keydown.enter)="openAppointmentDialog($event)" 
-        (keydown.space)="openAppointmentDialog($event)" 
-        (click)="openAppointmentDialog($event)"
-        tabindex="0"
-        class="create-appointment-overlay" ></div>
+          <button 
+            (click)="openAppointmentDialog($event)"
+            tabindex="0"
+            class="create-appointment-overlay b-none" >
+        </button>
       </div>
     </div>
   </div>
