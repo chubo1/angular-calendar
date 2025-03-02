@@ -26,11 +26,12 @@ export class AppointmentDialogComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<AppointmentDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { title: string },
+    @Inject(MAT_DIALOG_DATA) public data: { selectedDate: any, selectedTime: number, title:string },
     private fb: FormBuilder
   ) { }
 
   ngOnInit(): void {
+    console.log(this.data)
     this.appointmentForm = this.fb.group({
       title: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]]
     });

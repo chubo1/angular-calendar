@@ -23,8 +23,6 @@ import { AppointmentItemComponent } from '../appointment-item/appointment-item.c
     MatButtonModule,
     MatIconModule,
     FormsModule,
-    DeleteAppointmentComponent,
-    AppointmentDialogComponent,
     AppointmentItemComponent
   ],
   templateUrl: './calendar-view.component.html',
