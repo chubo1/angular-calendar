@@ -1,0 +1,62 @@
+<div class="calendar-container">
+  <div class="calendar">
+    <div class="calendar-header">
+      <span>{{ currentDate() | date: 'MMMM yyyy' }}</span>
+      <div class="button-wrapper">
+        <button (click)="updateMonth(-1)" mat-icon-button>
+          <mat-icon>arrow_back_ios</mat-icon>
+        </button>
+        <button (click)="updateMonth(1)" mat-icon-button>
+          <mat-icon>arrow_forward_ios</mat-icon>
+        </button>
+      </div>
+    </div>
+    <div class="calendar-grid">
+      <div class="day-name" *ngFor="let day of ['Sun','Mon','Tue','Wed','Thu','Fri','Sat']">{{ day }}</div>
+      <div 
+        class="calendar-day" 
+        *ngFor="let day of calendarDays()" 
+        (click)="selectDate(day)" 
+        [class.selected]="selectedDate()?.toDateString() === day.toDateString()">
+        {{ day.getDate() }}
+      </div>
+    </div>
+  </div>
+
+  <div class="timeline-container" *ngIf="selectedDate()">
+    <div class="current-date">{{ selectedDate() | date: 'MMMM d, yyyy' }}</div>
+    <div class="timeline-wrapper">
+      <div class="hour-labels">
+        <div *ngFor="let hr of hoursList()" class="hour-label">{{ formatTime(hr) }}</div>
+      </div>
+      <div class="timeline" [style.height.px]="timelineHeight">
+        <div *ngFor="let line of gridLines()" class="grid-line" [style.top.px]="line"></div>
+        <!-- <div 
+          *ngFor="let app of appointmentsForSelectedDay(); let i = index"
+          class="appointment-item"
+          cdkDrag
+          cdkDragLockAxis="y"
+          (contextmenu)="openDeleteDialog($event, app, i)"
+          (cdkDragEnded)="onDragEnded($event, app)"
+          [style.top.px]="app.start - timelineStart"
+          [style.height.px]="app.duration">
+          <div class="appointment-info">
+            <div class="title">{{ app.title }}</div>
+            <div class="interval">{{ formatInterval(app) }}</div>
+          </div>
+        </div> -->
+        <app-appointment-item *ngFor="let app of appointmentsForSelectedDay(); let i = index" 
+          class="appointment-item" 
+          cdkDrag
+          cdkDragLockAxis="y"
+          (contextmenu)="openDeleteDialog($event, app, i)"
+          (cdkDragEnded)="onDragEnded($event, app)"
+          [style.top.px]="app.start - timelineStart"
+          [style.height.px]="app.duration"
+          [appointment]="{ title: app.title, interval: formatInterval(app) }">
+       </app-appointment-item>
+        <div class="create-appointment-overlay" (click)="openAppointmentDialog($event)"></div>
+      </div>
+    </div>
+  </div>
+</div>

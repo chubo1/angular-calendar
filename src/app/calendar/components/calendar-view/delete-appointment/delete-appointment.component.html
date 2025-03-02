@@ -1,0 +1,17 @@
+<h3 mat-dialog-title>
+  Schedule Appointment for {{ data.selectedDate | date: 'MMMM d, yyyy' }} at {{ data.selectedTime }}:00
+</h3>
+<div mat-dialog-content>
+  <mat-form-field appearance="fill">
+    <mat-label>Title</mat-label>
+    <input matInput [(ngModel)]="appointment.title" name="title" required />
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Description</mat-label>
+    <textarea matInput [(ngModel)]="appointment.description" name="description"></textarea>
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <button mat-raised-button color="primary" (click)="onSubmit()">Save</button>
+</div>
