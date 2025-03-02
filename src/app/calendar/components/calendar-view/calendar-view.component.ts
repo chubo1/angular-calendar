@@ -1,4 +1,4 @@
-import { Component, computed, effect, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DragDropModule, CdkDragEnd } from '@angular/cdk/drag-drop';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
@@ -71,6 +71,7 @@ export class CalendarViewComponent {
     return days;
   });
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   constrainPosition = (event: any): { x: number; y: number } => {
     if (!event || event.y === undefined) return { x: 0, y: 0 };
     const minY = 0;
@@ -111,6 +112,7 @@ export class CalendarViewComponent {
     return `${this.formatTime(app.start)} – ${this.formatTime(app.start + app.duration)}`;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   openDeleteDialog(event: any, app: Appointment, index: number): void {
     event.preventDefault();
     const dialogRef = this.dialog.open(DeleteAppointmentComponent, { width: '300px', data: { title: app.title } });

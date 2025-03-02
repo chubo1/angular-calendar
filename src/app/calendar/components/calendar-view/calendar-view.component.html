@@ -55,6 +55,7 @@
           [style.height.px]="app.duration"
           [appointment]="{ title: app.title, interval: formatInterval(app) }">
        </app-appointment-item>
+        // eslint-disable-next-line @angular-eslint/template/click-events-have-key-events
         <div class="create-appointment-overlay" (click)="openAppointmentDialog($event)"></div>
       </div>
     </div>

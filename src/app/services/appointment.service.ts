@@ -19,6 +19,7 @@ export class AppointmentService {
       localStorage.removeItem(test);
       return true;
     } catch (e) {
+      console.error(e);
       return false;
     }
   }

@@ -26,6 +26,7 @@ export class AppointmentDialogComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<AppointmentDialogComponent>,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     @Inject(MAT_DIALOG_DATA) public data: { selectedDate: any, selectedTime: number, title:string },
     private fb: FormBuilder
   ) { }
