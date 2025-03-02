@@ -31,20 +31,6 @@
       </div>
       <div class="timeline" [style.height.px]="timelineHeight">
         <div *ngFor="let line of gridLines()" class="grid-line" [style.top.px]="line"></div>
-        <!-- <div 
-          *ngFor="let app of appointmentsForSelectedDay(); let i = index"
-          class="appointment-item"
-          cdkDrag
-          cdkDragLockAxis="y"
-          (contextmenu)="openDeleteDialog($event, app, i)"
-          (cdkDragEnded)="onDragEnded($event, app)"
-          [style.top.px]="app.start - timelineStart"
-          [style.height.px]="app.duration">
-          <div class="appointment-info">
-            <div class="title">{{ app.title }}</div>
-            <div class="interval">{{ formatInterval(app) }}</div>
-          </div>
-        </div> -->
         <app-appointment-item *ngFor="let app of appointmentsForSelectedDay(); let i = index" 
           class="appointment-item" 
           cdkDrag
@@ -55,8 +41,12 @@
           [style.height.px]="app.duration"
           [appointment]="{ title: app.title, interval: formatInterval(app) }">
        </app-appointment-item>
-        // eslint-disable-next-line @angular-eslint/template/click-events-have-key-events
-        <div class="create-appointment-overlay" (click)="openAppointmentDialog($event)"></div>
+        <div
+          (click)="openAppointmentDialog($event)"
+          (keydown.enter)="openAppointmentDialog($event)" 
+          (keydown.space)="openAppointmentDialog($event)" 
+          tabindex="0"
+          class="create-appointment-overlay"></div>
       </div>
     </div>
   </div>
