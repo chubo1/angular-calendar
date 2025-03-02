@@ -31,7 +31,6 @@ export class AppointmentDialogComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log(this.data)
     this.appointmentForm = this.fb.group({
       title: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]]
     });
