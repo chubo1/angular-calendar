@@ -1,7 +1,7 @@
 <div class="calendar-container">
   <div class="calendar">
     <div class="calendar-header">
-      <span>{{ currentDate() | date: 'MMMM yyyy' }}</span>
+      <span>{{ currentDate$ | async | date: 'MMMM yyyy' }}</span>
       <div class="button-wrapper">
         <button (click)="updateMonth(-1)" mat-icon-button>
           <mat-icon>arrow_back_ios</mat-icon>
@@ -15,37 +15,52 @@
       <div class="day-name" *ngFor="let day of ['Sun','Mon','Tue','Wed','Thu','Fri','Sat']">{{ day }}</div>
       <button 
         class="calendar-day b-none" 
-        *ngFor="let day of calendarDays()" 
+        *ngFor="let day of calendarDays$ | async" 
         (click)="selectDate(day)" 
         tabindex="0"
-        [class.selected]="selectedDate()?.toDateString() === day.toDateString()">
+        [class.selected]="(selectedDate$ | async)?.toDateString() === day.toDateString()">
         {{ day.getDate() }}
       </button>
     </div>
   </div>
 
-  <div class="timeline-container" *ngIf="selectedDate()">
-    <div class="current-date">{{ selectedDate() | date: 'MMMM d, yyyy' }}</div>
+  <div class="timeline-container" *ngIf="selectedDate$ | async">
+    <div class="current-date">{{ selectedDate$ | async | date: 'MMMM d, yyyy' }}</div>
     <div class="timeline-wrapper">
       <div class="hour-labels">
-        <div *ngFor="let hr of hoursList()" class="hour-label">{{ formatTime(hr) }}</div>
+        <div *ngFor="let hr of hoursList$ | async" class="hour-label">{{ formatTime(hr) }}</div>
       </div>
       <div class="timeline" [style.height.px]="timelineHeight">
-        <div *ngFor="let line of gridLines()" class="grid-line" [style.top.px]="line"></div>
-        <app-appointment-item *ngFor="let app of appointmentsForSelectedDay(); let i = index" 
+        <div *ngFor="let line of gridLines$ | async" class="grid-line" [style.top.px]="line"></div>
+
+        <app-appointment-item 
+          *ngFor="let app of appointmentsForSelectedDay$ | async; let i = index" 
           class="appointment-item" 
           cdkDrag
           cdkDragLockAxis="y"
-          (contextmenu)="openDeleteDialog($event, app, i)"
+          (contextmenu)="onContextMenu($event, app, i)"
           (cdkDragEnded)="onDragEnded($event, app)"
           [style.top.px]="app.start - timelineStart"
           [style.height.px]="app.duration"
           [appointment]="{ title: app.title, interval: formatInterval(app) }">
-       </app-appointment-item>
-          <button 
-            (click)="openAppointmentDialog($event)"
-            tabindex="0"
-            class="create-appointment-overlay b-none" >
+        </app-appointment-item>
+
+          <div style="visibility: hidden; position: fixed"
+          [style.left]="contextMenuPosition.x"
+          [style.top]="contextMenuPosition.y"
+          [matMenuTriggerFor]="contextMenu">
+       </div>
+        <mat-menu #contextMenu="matMenu">
+          <ng-template matMenuContent let-item="item">
+            <button mat-menu-item (click)="editAppointment()">Edit</button>
+            <button mat-menu-item (click)="openDeleteDialog($event)">Delete</button>
+          </ng-template>
+        </mat-menu>
+
+        <button 
+          (click)="openAppointmentDialog($event)"
+          tabindex="0"
+          class="create-appointment-overlay b-none">
         </button>
       </div>
     </div>

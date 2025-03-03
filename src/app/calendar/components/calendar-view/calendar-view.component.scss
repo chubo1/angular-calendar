@@ -126,3 +126,6 @@
 .b-none{
   border: none;
 }
+.mat-menu-panel {
+  position: absolute !important; /* Ensure the menu opens within the div */
+}

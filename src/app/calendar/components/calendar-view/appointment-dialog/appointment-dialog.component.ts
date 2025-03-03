@@ -35,6 +35,11 @@ export class AppointmentDialogComponent implements OnInit {
     this.appointmentForm = this.fb.group({
       title: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]]
     });
+    if(this.data.title){
+      this.appointmentForm.setValue({
+        title: this.data.title
+     });
+    }
   }
 
   onCancel(): void {
